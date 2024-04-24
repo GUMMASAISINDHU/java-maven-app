@@ -16,17 +16,17 @@
     </dependency>
   </dependencies>
   <distributionManagement>
-		<repository>
-			<id>nexus-rel-upload</id>
-			<name>Internal Releases</name>
-			<url>https://nexus.cbc-rep-1.sa-demo.beescloud.com/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>nexus-snap-upload</id>
-			<name>Internal Snapshot Releases</name>
-			<url>https://nexus.cbc-rep-1.sa-demo.beescloud.com/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
+    <repository>
+      <id>nexus-rel-upload</id>
+      <name>Internal Releases</name>
+      <url>https://nexus.cbc-rep-1.sa-demo.beescloud.com/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-snap-upload</id>
+      <name>Internal Snapshot Releases</name>
+      <url>https://nexus.cbc-rep-1.sa-demo.beescloud.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>13</maven.compiler.source>
@@ -34,53 +34,54 @@
   </properties>
   <build>
     <pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>13</source>
-                    <target>13</target>
-                </configuration>
-            </plugin>
-        </plugins>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <source>13</source>
+            <target>13</target>
+          </configuration>
+        </plugin>
+      </plugins>
     </pluginManagement>
     <plugins>
-        <plugin>
-            <!-- Build an executable JAR -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-jar-plugin</artifactId>
-            <version>3.2.0</version>
+      <plugin>
+        <!-- Build an executable JAR -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>com.mycompany.app.App</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <executions>
+          <execution>
+            <id>enforce-maven</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
             <configuration>
-                <archive>
-                    <manifest>
-                        <addClasspath>true</addClasspath>
-                        <classpathPrefix>lib/</classpathPrefix>
-                        <mainClass>com.mycompany.app.App</mainClass>
-                    </manifest>
-                </archive>
+              <rules>
+                <requireMavenVersion>
+                  <version>[3.5.4,)</version>
+                </requireMavenVersion>
+              </rules>
             </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-enforcer-plugin</artifactId>
-            <version>3.0.0-M3</version>
-            <executions>
-                <execution>
-                    <id>enforce-maven</id>
-                    <goals>
-                        <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                        <rules>
-                            <requireMavenVersion>
-                                <version>[3.5.4,)</version>
-                            </requireMavenVersion>
-                        </rules>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
-</build>
+  </build>
+</project>
