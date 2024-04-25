@@ -1,28 +1,49 @@
 pipeline {
-  agent any
-  parameters {
-    gitParameter branchFilter: 'origin/(.*)', defaultValue: 'master', name: 'BRANCH', type: 'PT_BRANCH'
-  }
- stages {
-        stage('Build') {
+    agent any
+    tools {
+        maven 'Maven'
+    }
+    stages {
+        stage('Declarative: Checkout SCM') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: '
+https://github.com/PandiriMounika2001/simple-java-maven-app.git']]])
             }
         }
-        stage('Test') {
+        stage('Choose Branch') {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                script {
+                    branches = bat(returnStdout: true, script: 'git ls-remote --heads origin').trim().split("\\r?\\n")
+                    branchNames = branches.collect { it.split("\\s+")[1].replaceAll("refs/heads/", "") }
+                    echo "Available branches: ${branchNames}"
                 }
             }
         }
-        stage('Deliver') { 
+        stage('Checkout') {
             steps {
-                sh './jenkins/scripts/deliver.sh' 
+                echo 'Checking out code...'
+                checkout scm
+            }
+        }
+        stage('Build and Test') {
+            steps {
+                echo 'Building and Testing...'
+                bat 'mvn clean package'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying...'
+                // Add your deployment steps here
             }
         }
     }
+    post {
+        always {
+            echo 'This will always run'
+        }
+        success {
+            input 'Deploy to production?'
+        }
+    }    
 }
