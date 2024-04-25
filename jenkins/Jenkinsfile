@@ -6,8 +6,7 @@ pipeline {
     stages {
         stage('Declarative: Checkout SCM') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: '
-https://github.com//GUMMASAISINDHU/java-maven-app']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/PandiriMounika2001/simple-java-maven-app.git']]])
             }
         }
         stage('Choose Branch') {
@@ -47,3 +46,4 @@ https://github.com//GUMMASAISINDHU/java-maven-app']]])
         }
     }    
 }
+
