@@ -7,7 +7,7 @@ pipeline {
         stage('Declarative: Checkout SCM') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: '
-https://github.com/PandiriMounika2001/simple-java-maven-app.git']]])
+https://github.com//GUMMASAISINDHU/java-maven-app']]])
             }
         }
         stage('Choose Branch') {
